@@ -1,48 +1,54 @@
+
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./Login.css";
 
 function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [message, setMessage] = useState("");
+  const navigate = useNavigate(); // Hook to navigate pages
 
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Logging in with:", email, password);
+    try {
+      const response = await axios.post("http://localhost:5000/login", formData);
+      localStorage.setItem("token", response.data.token); // Save token
+      localStorage.setItem("role", response.data.role); // Save role
+
+      // Redirect based on role
+      if (response.data.role === "admin") {
+        navigate("/admin-dashboard");
+      } else if (response.data.role === "staff") {
+        navigate("/staff-dashboard");
+      } else {
+        navigate("/user-dashboard");
+      }
+    } catch (error) {
+      setMessage(error.response?.data?.message || "Login failed");
+    }
   };
 
   return (
     <div className="login-container">
       <div className="login-card">
-        <h2 className="login-title">Welcome Back</h2>
-        <p className="login-subtitle">Login to manage your complaints</p>
+        <h2 className="login-title">Login</h2>
+        {message && <p className="message">{message}</p>}
         <form onSubmit={handleSubmit}>
           <div className="input-group">
             <label>Email</label>
-            <input
-              type="email"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+            <input type="email" name="email" value={formData.email} onChange={handleChange} required />
           </div>
           <div className="input-group">
             <label>Password</label>
-            <input
-              type="password"
-              placeholder="Enter your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
+            <input type="password" name="password" value={formData.password} onChange={handleChange} required />
           </div>
-          <Link to="/forgot-password" className="forgot-password">Forgot Password?</Link>
           <button type="submit" className="login-btn">Login</button>
         </form>
-        <p className="signup-text">
-          Don't have an account? <Link to="/register" className="signup-link">Sign Up</Link>
-        </p>
       </div>
     </div>
   );
