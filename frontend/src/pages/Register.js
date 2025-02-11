@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import "./Register.css";
 
 function Register() {
@@ -8,15 +9,29 @@ function Register() {
     email: "",
     password: "",
     confirmPassword: "",
+    role: "user", // Default role
   });
+
+  const [message, setMessage] = useState("");
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Registering with:", formData);
+
+    if (formData.password !== formData.confirmPassword) {
+      setMessage("Passwords do not match!");
+      return;
+    }
+
+    try {
+      const response = await axios.post("http://localhost:5000/register", formData);
+      setMessage(response.data.message);
+    } catch (error) {
+      setMessage(error.response?.data?.message || "Registration failed");
+    }
   };
 
   return (
@@ -24,6 +39,7 @@ function Register() {
       <div className="register-card">
         <h2 className="register-title">Create an Account</h2>
         <p className="register-subtitle">Join us and start managing complaints easily</p>
+        {message && <p className="message">{message}</p>}
         <form onSubmit={handleSubmit}>
           <div className="input-group">
             <label>Full Name</label>
@@ -68,6 +84,14 @@ function Register() {
               onChange={handleChange}
               required
             />
+          </div>
+          <div className="input-group">
+            <label>Select Role</label>
+            <select name="role" value={formData.role} onChange={handleChange} required>
+              <option value="user">User</option>
+              <option value="admin">Admin</option>
+              <option value="staff">Staff</option>
+            </select>
           </div>
           <button type="submit" className="register-btn">Sign Up</button>
         </form>

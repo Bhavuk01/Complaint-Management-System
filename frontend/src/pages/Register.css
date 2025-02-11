@@ -91,3 +91,36 @@
     text-decoration: underline;
   }
   
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+  }
+  
+  .input-group label {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+  }
+  
+  .input-group select {
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    background-color: #fff;
+    transition: border-color 0.3s ease-in-out;
+  }
+  
+  .input-group select:focus {
+    border-color: #007bff;
+  }
+  
+  .input-group select option {
+    font-size: 16px;
+    background-color: #fff;
+    color: #333;
+  }
+  
