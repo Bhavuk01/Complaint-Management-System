@@ -22,11 +22,11 @@ function Login() {
 
       // Redirect based on role
       if (response.data.role === "admin") {
-        navigate("/admin-dashboard");
+        navigate("/admindashboard");
       } else if (response.data.role === "staff") {
-        navigate("/staff-dashboard");
+        navigate("/staffdashboard");
       } else {
-        navigate("/user-dashboard");
+        navigate("/userDashboard");
       }
     } catch (error) {
       setMessage(error.response?.data?.message || "Login failed");

@@ -5,6 +5,7 @@ const cors = require("cors");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -63,6 +64,36 @@ app.post("/login", async (req, res) => {
       res.status(500).json({ message: "Server error", error });
     }
   });
+
+
+  app.post("/Addcomplaint", async (req, res) => {
+    try {
+        const { title, description } = req.body;
+        if (!title || !description) {
+            return res.status(400).json({ message: "Title and description are required" });
+        }
+
+        const newComplaint = new Complaint({ title, description, status: "Pending" });
+        await newComplaint.save();
+
+        res.status(201).json({ message: "Complaint submitted successfully", complaint: newComplaint });
+    } catch (error) {
+        console.error("Error submitting complaint:", error); // Print full error
+        res.status(500).json({ message: "Internal Server Error", error: error.message });
+    }
+});
+app.post("/complaints", (req, res) => {
+  res.json({ message: "Complaint received" });
+});
+
+
+
+
+
+
+
+  
+  
   
 
 // Start Server

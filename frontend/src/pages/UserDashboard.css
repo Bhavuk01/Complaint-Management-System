@@ -1,0 +1,59 @@
+.dashboard-container {
+    max-width: 800px;
+    margin: 50px auto;
+    text-align: center;
+    padding: 20px;
+    background: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+  }
+  
+  .dashboard-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .dashboard-subtitle {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    color: #666;
+  }
+  
+  .complaints-section {
+    text-align: left;
+    margin-top: 20px;
+  }
+  
+  .complaints-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+  
+  .complaints-section ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .complaints-section li {
+    background: #f8f8f8;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+  }
+  
+  .logout-btn {
+    background: #e74c3c;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+    border-radius: 5px;
+    transition: 0.3s;
+  }
+  
+  .logout-btn:hover {
+    background: #c0392b;
+  }
+  
